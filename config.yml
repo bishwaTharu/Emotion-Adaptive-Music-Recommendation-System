@@ -15,3 +15,4 @@ scheduler: linear_warmup
 transformer: sentence-transformers/all-MiniLM-L6-v2
 data_train_path: "data/processed/emobank_train.parquet"
 data_val_path: "data/processed/emobank_val.parquet"
+raw_data_path: "data/raw/emobank.csv"
