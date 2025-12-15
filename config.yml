@@ -1,0 +1,8 @@
+transformer: "sentence-transformers/all-MiniLM-L6-v2"
+batch_size: 32
+epochs: 5
+lr: 0.0002
+max_length: 128
+lora_rank: 8
+scheduler: "linear_warmup"
+length_buckets: [0, 10, 20, 30, 40, 50, 60]
