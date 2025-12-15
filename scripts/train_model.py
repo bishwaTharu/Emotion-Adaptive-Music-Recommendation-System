@@ -22,26 +22,14 @@ import matplotlib.pyplot as plt
 def main():
     set_seed(42)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    # --------------------
-    # MLflow setup
-    # --------------------
     setup_mlflow(experiment_name="words_to_waves_va_regression")
 
     with mlflow.start_run():
-        # --------------------
-        # Config
-        # --------------------
         with open("config.yml", "r") as f:
             config = yaml.safe_load(f)
-
         log_params(config)
-
-        # --------------------
-        # Data
-        # --------------------
-        train_df = pd.read_parquet("data/processed/emobank_train.parquet")
-        val_df = pd.read_parquet("data/processed/emobank_val.parquet")
+        train_df = pd.read_parquet(config["data_train_path"])
+        val_df = pd.read_parquet(config["data_val_path"])
 
         tokenizer = BertTokenizer.from_pretrained(config["transformer"])
 
@@ -63,13 +51,8 @@ def main():
             num_workers=0 if device.type == "cpu" else 4,
             pin_memory=device.type != "cpu",
         )
-
-        # --------------------
-        # Model
-        # --------------------
         model = build_model(config["transformer"])
         model.to(device)
-
         optimizer = torch.optim.AdamW(
             filter(lambda p: p.requires_grad, model.parameters()),
             lr=config["lr"]
@@ -81,10 +64,6 @@ def main():
             num_warmup_steps=int(0.1 * total_steps),
             num_training_steps=total_steps,
         )
-
-        # --------------------
-        # Training loop
-        # --------------------
         train_losses = []
         val_losses = []
         for epoch in range(config["epochs"]):
