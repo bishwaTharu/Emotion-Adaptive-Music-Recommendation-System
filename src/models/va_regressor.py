@@ -1,6 +1,6 @@
 from transformers import AutoModel
-from src.models.lora import apply_lora_to_transformer
-from src.models.wide_deep import WideDeepVA
+from .lora import apply_lora_to_transformer
+from .wide_deep import WideDeepVA
 
 def build_model(transformer_name: str = "sentence-transformers/all-MiniLM-L6-v2") -> WideDeepVA:
     transformer = AutoModel.from_pretrained(transformer_name)
