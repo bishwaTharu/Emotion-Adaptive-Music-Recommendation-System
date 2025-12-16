@@ -1,6 +1,6 @@
 env
 models/checkpoint/model_checkpoint.pth
-data
+data/
 __pycache__/
 *.pyc
 .ipynb_checkpoints

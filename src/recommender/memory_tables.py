@@ -1,5 +1,5 @@
 from collections import defaultdict
-from ..data.va_binning import va_to_bin
+from ..datasets.va_binning import va_to_bin
 
 def build_user_emotion_table(play_logs):
     table = defaultdict(lambda: defaultdict(float))

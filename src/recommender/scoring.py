@@ -1,5 +1,5 @@
 import torch
-from ..data.va_binning import va_to_bin
+from ..datasets.va_binning import va_to_bin
 
 def score_song(q_va, s_va, user, artist, ue_table, ea_table):
     v_bin, a_bin = va_to_bin(q_va[0], q_va[1])
