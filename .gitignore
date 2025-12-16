@@ -1,5 +1,5 @@
 env
-model_checkpoint.pth
+models/checkpoint/model_checkpoint.pth
 data
 __pycache__/
 *.pyc
