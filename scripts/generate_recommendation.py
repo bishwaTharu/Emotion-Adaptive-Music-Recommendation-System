@@ -121,7 +121,7 @@ def main():
         user_top_artists=user_top_artists
     )
 
-    user_id = "4fea8ee3745dada8a8fa2a2d26514bc1232c3a15"
+    user_id = "4a47c65bf7894a80761acaa525295e54832d2057"
     query = "My heart is racing, I feel panicked and overstimulated, like I can’t slow down."
 
     query_va = service.infer_va(query)

@@ -6,7 +6,7 @@ import yaml
 import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from models.va_regressor import build_model
+from src.models.va_regressor import build_model
 from transformers import AutoTokenizer
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -15,9 +15,6 @@ logger = logging.getLogger(__name__)
 with open("config.yml", "r") as f:
     config = yaml.safe_load(f)
     
-with open("models/checkpoint/config.yml", "r") as f:
-    model_config = yaml.safe_load(f)
-    
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 logger.info(f"Using device: {device}")
 
@@ -25,7 +22,7 @@ model = build_model(config["transformer"])
 model.to(device)
 
 try:
-    model.load_state_dict(torch.load(model_config["model_checkpoint_path"], map_location=device))
+    model.load_state_dict(torch.load(config["model_checkpoint_path"], map_location=device))
     logger.info("Model checkpoint loaded successfully.")
 except FileNotFoundError:
     logger.warning("No checkpoint found. Please train the model first.")
