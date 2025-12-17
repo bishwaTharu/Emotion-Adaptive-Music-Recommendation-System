@@ -10,9 +10,6 @@ from src.recommender.memory_store import MemoryStore
 from src.recommender.candidate_selector import CandidateSelector
 from src.recommender.recommender import EmotionRecommender
 
-# --------------------------------------------------
-# Logging
-# --------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
@@ -35,30 +32,14 @@ class OnlineRecommenderService:
         user_top_artists=None,
     ):
         self.api_url = api_url
-
-        # --------------------
-        # Load & deduplicate song catalog
-        # --------------------
         self.songs = self._load_songs(song_parquet)
-
-        # --------------------
-        # Memory tables
-        # --------------------
         self.memory_store = MemoryStore(
             user_emotion_path=user_emotion_path,
             emotion_artist_path=emotion_artist_path
         )
-
-        # --------------------
-        # Candidate selector (top artist filtering)
-        # --------------------
         self.candidate_selector = CandidateSelector(
             user_top_artists=user_top_artists or {}
         )
-
-        # --------------------
-        # Recommender (paper scoring)
-        # --------------------
         self.recommender = EmotionRecommender(
             memory_store=self.memory_store,
             candidate_selector=self.candidate_selector,
@@ -67,14 +48,9 @@ class OnlineRecommenderService:
 
         logger.info("Online recommender initialized successfully")
 
-    # --------------------------------------------------
-    # Song loading (FIX #1)
-    # --------------------------------------------------
     def _load_songs(self, parquet_path):
         try:
             df = pd.read_parquet(parquet_path)
-
-            # 🔥 CRITICAL FIX: remove duplicate tracks
             df = df.drop_duplicates(subset=["song", "artist"])
 
             songs = [
@@ -102,9 +78,6 @@ class OnlineRecommenderService:
             )
             raise
 
-    # --------------------------------------------------
-    # Emotion inference
-    # --------------------------------------------------
     def infer_va(self, text: str) -> torch.Tensor:
         response = requests.post(
             f"{self.api_url}/infer",
@@ -126,9 +99,6 @@ class OnlineRecommenderService:
         )
         return va
 
-    # --------------------------------------------------
-    # Recommendation
-    # --------------------------------------------------
     def recommend(self, query_va, user_id, top_k=5):
         return self.recommender.recommend(
             query_va=query_va,
@@ -138,11 +108,7 @@ class OnlineRecommenderService:
         )
 
 
-# --------------------------------------------------
-# Main
-# --------------------------------------------------
 def main():
-    # Example top artist (computed offline from Last.fm)
     user_top_artists = {
         "4fea8ee3745dada8a8fa2a2d26514bc1232c3a15": "the beatles"
     }
