@@ -1,6 +1,5 @@
 env
 models/checkpoint/model_checkpoint.pth
-data/
 __pycache__/
 *.pyc
 .ipynb_checkpoints
@@ -9,3 +8,4 @@ logs/
 mlruns/
 mlflow.db
 .env
+my_data
