@@ -1,9 +1,6 @@
 import sys
 sys.path.append('src')
 
-import torch
-import pandas as pd
-import requests
 import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -35,9 +32,7 @@ class RecommendationResponse(BaseModel):
     recommendations: List[SongRecommendation]
 
 try:
-    user_top_artists = {
-        "4fea8ee3745dada8a8fa2a2d26514bc1232c3a15": "the beatles"
-    }
+    user_top_artists = None
 
     recommender_service = OnlineRecommenderService(
         api_url="http://localhost:8000",
