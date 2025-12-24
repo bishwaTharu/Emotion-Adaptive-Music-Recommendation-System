@@ -9,7 +9,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from src.models.va_regressor import build_model
-from src.data.emobank_dataset import EmoBankDataset
+from src.data_sets.emobank_dataset import EmoBankDataset
 from src.training.train import train_epoch
 from src.training.evaluate import evaluate
 from src.utils.logging import setup_mlflow, log_params, log_metrics, log_model
