@@ -12,7 +12,7 @@ from src.models.va_regressor import build_model
 from src.data_sets.emobank_dataset import EmoBankDataset
 from src.training.train import train_epoch
 from src.training.evaluate import evaluate
-from src.utils.logging import setup_mlflow, log_params, log_metrics, log_model
+from src.utils.mlflow_logger import setup_mlflow, log_params, log_metrics, log_model
 from src.utils.seed import set_seed
 import pandas as pd
 import yaml
